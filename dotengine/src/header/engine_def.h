@@ -1,0 +1,9 @@
+#ifndef ENGINE_DEF_HPP
+#define ENGINE_DEF_HPP
+
+#define DEFAULT_SCREEN_SIZE {15, 15}
+#define DEFAULT_SCREEN_TITLE "DotEngine"
+#define DEFAULT_SPACING 1
+#define DEFAULT_SCREEN_CHAR '.'
+
+#endif
