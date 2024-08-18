@@ -52,9 +52,9 @@ public:                     // {x, y}
 
         for (i = 0; i < this->screenSize[1] && !isFound; ++i) {
             for (j = 0; j < this->screenSize[0] && !isFound; ++j) {
-                if (cursor == pos) {
+                if (cursor == pos)
                     isFound = true;
-                } else
+                else
                     cursor++;
             }
             if (!isFound)
