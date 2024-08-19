@@ -9,14 +9,19 @@ int main() {
     int posSum = 0;
     int charPos = 'a';
 
-    while (engine.getChar(n(8), n(8)) == '.') {
+    const int maxCol = 7;
+    const int maxRow = 7;
+
+    while (engine.getChar(maxRow, maxCol) == '.') {
         engine.changeChar(columnSum, posSum, (char)charPos);
         engine.renderWindow();
 
         posSum++;
-        if (posSum > n(8)) {
-            columnSum++;
+        if (posSum > maxCol) {
             posSum = 0;
+            columnSum++;
+            if (columnSum > maxRow)
+                break;
         }
         charPos++;
     }
@@ -25,7 +30,7 @@ int main() {
     std::cout << engine.getTableSize() << std::endl;
 
     std::cout << engine.getChar(12) << std::endl;
-    std::cout << engine.getChar(n(engine.getTableSize())) << std::endl;
+    std::cout << engine.getChar(engine.getTableSize()-1) << std::endl;
 
     // engine.changeChar(2, 5, 'A');
     // engine.renderWindow();

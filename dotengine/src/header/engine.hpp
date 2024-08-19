@@ -7,11 +7,9 @@
 #include "../utils/str.hpp"
 #include "input.hpp"
 #include "engine_def.h"
+#include <chrono>
+#include <thread>
 
-// TODO: Do this thing with cross platform support
-#include <Windows.h> // Only for Sleep(DWORD dwMilliseconds) function.
-
-#define n(x) (x-1)
 
 class DotEngine {
 public:                     // {x, y}
@@ -21,21 +19,11 @@ public:                     // {x, y}
         this->screenChar = screenChar;
         this->spacing = spacing;
         this->refreshRate = refreshRate;
+        this->tableSize = this->screenSize[0] * this->screenSize[1];
     }
     
     void initialize() {
-        int m_size = 0;
-        // initialize all elements;  {y}
-        for(int i = 0; i < this->screenSize[1]; ++i) {
-            this->window.push_back({});
-            for (int j = 0; j < this->screenSize[0]; ++j) {
-                this->window.at(i).push_back(this->screenChar);
-                m_size++;
-            }
-            m_size++;
-        }
-        
-        this->tableSize = m_size;
+        this->window.resize(this->screenSize[0], std::vector<char>(this->screenSize[1], this->screenChar));
         this->renderWindow();
     }
 
@@ -48,39 +36,42 @@ public:                     // {x, y}
     }
 
     void renderWindow() {
-        system("cls"); // TODO: do cross platform support with "clear" command that used in unix systems.
-        for(long unsigned int i = 0; i < this->window.size(); ++i) {
+        std::string output;
+
+        for (long unsigned int i = 0; i < this->window.size(); ++i) {
             for (long unsigned int j = 0; j < this->window.at(i).size(); ++j) {
-                std::cout << this->window.at(i).at(j) << utils::intToSpace(this->spacing);
+                output += this->window.at(i).at(j) + utils::intToSpace(this->spacing);
             }
-            std::cout << std::endl;
+            output += '\n';
         }
 
+        #ifdef _WIN32
+        system("cls");
+        #else
+        system("clear");
+        #endif
+
+        std::cout << output;
+
         // Refresh Rate Section
-        Sleep(this->refreshRate);
+        auto start = std::chrono::high_resolution_clock::now();
+        while (1) {
+            auto now = std::chrono::high_resolution_clock::now();
+            auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start);
+            if (elapsed.count() >= this->refreshRate)
+                break;
+        }
     }
 
-    char getChar(int column, int pos) {
-        return this->window.at(column).at(pos);
+    char getChar(int row, int column) {
+        return this->window.at(row).at(column);
     }
 
     char getChar(int pos) {
-        int cursor = 0;
-        int i, j;
-        bool isFound = false;
+        int row = pos / this->screenSize[0];
+        int column = pos % this->screenSize[0];
 
-        for (i = 0; i < this->screenSize[1] && !isFound; ++i) {
-            for (j = 0; j < this->screenSize[0] && !isFound; ++j) {
-                if (cursor == pos)
-                    isFound = true;
-                else
-                    cursor++;
-            }
-            if (!isFound)
-                cursor++;
-        }
-
-        return this->window.at(n(i)).at(n(j));
+        return this->window.at(row).at(column);
     }
 
     void changeChar(int column, int pos, char newChar) {
@@ -96,10 +87,6 @@ private:
     int spacing;
     int refreshRate;
     int tableSize;
-    
-
-
-    // TODO: RENDER PAWNS;
 };
 
 #endif
