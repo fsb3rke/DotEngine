@@ -8,15 +8,19 @@
 #include "input.hpp"
 #include "engine_def.h"
 
+// TODO: Do this thing with cross platform support
+#include <Windows.h> // Only for Sleep(DWORD dwMilliseconds) function.
+
 #define n(x) (x-1)
 
 class DotEngine {
 public:                     // {x, y}
-    explicit DotEngine(std::vector<int> screenSize=DEFAULT_SCREEN_SIZE, std::string screenTitle=DEFAULT_SCREEN_TITLE, int spacing=DEFAULT_SPACING, char screenChar=DEFAULT_SCREEN_CHAR) {
+    explicit DotEngine(std::vector<int> screenSize=DEFAULT_SCREEN_SIZE, std::string screenTitle=DEFAULT_SCREEN_TITLE, int spacing=DEFAULT_SPACING, char screenChar=DEFAULT_SCREEN_CHAR, int refreshRate=DEFAULT_REFRESH_RATE) {
         this->screenSize = screenSize;
         this->screenTitle = screenTitle;
         this->screenChar = screenChar;
         this->spacing = spacing;
+        this->refreshRate = refreshRate;
     }
     
     void initialize() {
@@ -31,14 +35,21 @@ public:                     // {x, y}
         this->renderWindow();
     }
 
+    void changeRefreshRate(int newRefreshRate) {
+        this->refreshRate = newRefreshRate;
+    }
+
     void renderWindow() {
-        system("cls");
+        system("cls"); // TODO: do cross platform support with "clear" command that used in unix systems.
         for(long unsigned int i = 0; i < this->window.size(); ++i) {
             for (long unsigned int j = 0; j < this->window.at(i).size(); ++j) {
                 std::cout << this->window.at(i).at(j) << utils::intToSpace(this->spacing);
             }
             std::cout << std::endl;
         }
+
+        // Refresh Rate Section
+        Sleep(this->refreshRate);
     }
 
     char getChar(int column, int pos) {
@@ -75,6 +86,7 @@ private:
     std::vector<std::vector<char>> window;
     char screenChar;
     int spacing;
+    int refreshRate;
     
 
 

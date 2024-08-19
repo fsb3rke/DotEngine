@@ -5,5 +5,6 @@
 #define DEFAULT_SCREEN_TITLE "DotEngine"
 #define DEFAULT_SPACING 1
 #define DEFAULT_SCREEN_CHAR '.'
+#define DEFAULT_REFRESH_RATE 20
 
 #endif

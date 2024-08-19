@@ -1,7 +1,8 @@
 #include "header/engine.hpp"
 
+
 int main() {
-    DotEngine engine = *new DotEngine({8, 8}, "Berke", 1, '.');
+    DotEngine engine = *new DotEngine({8, 8}, "Berke", 1, '.', 20);
     engine.initialize();
 
     int columnSum = 0;
