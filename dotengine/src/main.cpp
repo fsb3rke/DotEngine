@@ -14,14 +14,18 @@ int main() {
         engine.renderWindow();
 
         posSum++;
-        if (posSum > 7) {
+        if (posSum > n(8)) {
             columnSum++;
             posSum = 0;
         }
         charPos++;
     }
 
+    std::cout << charPos << std::endl;
+    std::cout << engine.getTableSize() << std::endl;
+
     std::cout << engine.getChar(12) << std::endl;
+    std::cout << engine.getChar(n(engine.getTableSize())) << std::endl;
 
     // engine.changeChar(2, 5, 'A');
     // engine.renderWindow();

@@ -24,15 +24,23 @@ public:                     // {x, y}
     }
     
     void initialize() {
+        int m_size = 0;
         // initialize all elements;  {y}
         for(int i = 0; i < this->screenSize[1]; ++i) {
             this->window.push_back({});
             for (int j = 0; j < this->screenSize[0]; ++j) {
                 this->window.at(i).push_back(this->screenChar);
+                m_size++;
             }
+            m_size++;
         }
         
+        this->tableSize = m_size;
         this->renderWindow();
+    }
+
+    int getTableSize() {
+        return this->tableSize;
     }
 
     void changeRefreshRate(int newRefreshRate) {
@@ -87,6 +95,7 @@ private:
     char screenChar;
     int spacing;
     int refreshRate;
+    int tableSize;
     
 
 
