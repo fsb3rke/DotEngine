@@ -2,7 +2,7 @@
 
 
 int main() {
-    DotEngine engine = *new DotEngine({8, 8}, "Berke", 1, '.', 20);
+    DotEngine engine = *new DotEngine({10, 8}, "Berke", 1, '.', 20);
     engine.initialize();
 
     int columnSum = 0;
@@ -10,7 +10,7 @@ int main() {
     int charPos = 'a';
 
     const int maxCol = 7;
-    const int maxRow = 7;
+    const int maxRow = 9;
 
     while (engine.getChar(maxRow, maxCol) == '.') {
         engine.changeChar(columnSum, posSum, (char)charPos);
@@ -30,7 +30,6 @@ int main() {
     std::cout << engine.getTableSize() << std::endl;
 
     std::cout << engine.getChar(12) << std::endl;
-    std::cout << engine.getChar(engine.getTableSize()-1) << std::endl;
 
     // engine.changeChar(2, 5, 'A');
     // engine.renderWindow();
